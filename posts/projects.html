@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&display=swap");
+
+      @media screen and (max-width: 600px) {
+        html {
+          font-size: 12px;
+        }
+      }
+
+      :root {
+        --height: 1;
+      }
+
+      body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 2rem;
+        height: 100vh;
+        background-color: #ddd;
+        overflow: hidden;
+        font-size: 1.5rem;
+        color: #333;
+        line-height: 0.9;
+        font-family: "Alumni Sans Pinstripe", sans-serif;
+        text-transform: uppercase;
+        text-align: center;
+      }
+
+      .tile {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 8rem;
+        height: 8rem;
+        border-radius: 1rem;
+      }
+
+      .tile:before,
+      .tile:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 1rem;
+      }
+
+      .tile--circle {
+        border-radius: 50%;
+      }
+
+      .tile--circle:before {
+        border-radius: 50%;
+      }
+
+      .button {
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.5) calc(0.33rem * var(--height))
+          calc(0.33rem * var(--height)) 0.6rem;
+        transition: box-shadow 0.15s 0.15s ease-in;
+      }
+
+      .button:before {
+        box-shadow: rgba(255, 255, 255, 0.5) calc(-0.33rem * var(--height))
+          calc(-0.33rem * var(--height)) 0.6rem;
+        transition: box-shadow 0.15s 0.15s ease-in;
+      }
+
+      .button span {
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .button > div {
+        box-shadow: inset rgba(0, 0, 0, 0.5) 0 0 0;
+        transition: box-shadow 0.15s ease-in;
+      }
+
+      .button > div:before {
+        box-shadow: inset rgba(255, 255, 255, 0.5) 0 0 0;
+        transition: box-shadow 0.15s ease-in;
+      }
+
+      .button:hover {
+        box-shadow: rgba(0, 0, 0, 0.5) 0 0 0;
+        transition: box-shadow 0.15s ease-out;
+      }
+
+      .button:hover:before {
+        box-shadow: rgba(255, 255, 255, 0.5) 0 0 0;
+        transition: box-shadow 0.15s ease-out;
+      }
+
+      .button:hover > div {
+        box-shadow: inset rgba(0, 0, 0, 0.5) calc(0.25rem * var(--height))
+          calc(0.25rem * var(--height)) 0.6rem;
+        transition: box-shadow 0.15s 0.15s ease-out;
+      }
+
+      .button:hover > div:before {
+        box-shadow: inset rgba(255, 255, 255, 0.5)
+          calc(-0.25rem * var(--height)) calc(-0.25rem * var(--height)) 0.6rem;
+        transition: box-shadow 0.15s 0.15s ease-out;
+      }
+
+      .button:hover span {
+        transform: translateY(0.1516rem);
+      }
+
+      .round-button {
+        cursor: pointer;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 255, 255, 0.5) 15%,
+          transparent 30%,
+          rgba(0, 0, 0, 0.5)
+        );
+        background-position: -4rem -4rem;
+        background-size: 200% 200%;
+        box-shadow: rgba(0, 0, 0, 0.5) 0.33rem 0.33rem 0.6rem;
+        transition:
+          background 0.3s ease-in-out,
+          box-shadow 0.15s 0.15s ease-in-out;
+      }
+
+      .round-button span {
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .round-button:hover {
+        background-position: -2rem -2rem;
+        box-shadow: rgba(0, 0, 0, 0.5) 0 0 0;
+        transition:
+          background 0.3s ease-in-out,
+          box-shadow 0.3s ease-in-out;
+      }
+
+      .round-button:hover span {
+        transform: translateY(0.1516rem);
+      }
+    </style>
+    <title>Projects</title>
+  </head>
+  <body>
+    <a
+      href="https://zhurakov.codeberg.page/newp/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="tile button"
+      style="text-decoration: none; color: inherit"
+    >
+      <div class="tile button">
+        <span>New project</span>
+      </div>
+    </a>
+
+    <!-- <div class="tile tile--circle round-button"> -->
+    <!--   <span>in progress...</span> -->
+    <!-- </div> -->
+  </body>
+</html>

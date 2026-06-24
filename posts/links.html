@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A growing personal library of websites and web projects worth sharing."
+    />
+    <title>Link Library</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: #021b20;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: clip;
+        background: #021b20;
+        color: #fffcf5;
+        font-family: Georgia, serif;
+      }
+
+      main {
+        width: min(450px, calc(100% - 3rem));
+        margin: 0 auto;
+        padding: 2rem 0 0;
+      }
+
+      .home-link,
+      .site-link {
+        text-decoration: none;
+      }
+
+      .home-link {
+        display: inline-block;
+        margin-bottom: 3.5rem;
+        color: #c3ccaf;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .home-link:hover {
+        color: #ffffff;
+      }
+
+      .page-header {
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        color: #ffffff;
+        font-size: clamp(2.8rem, 11vw, 4.8rem);
+        font-weight: normal;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+      }
+
+      .intro {
+        max-width: 34rem;
+        margin: 0;
+        color: #c3ccaf;
+        font-size: clamp(1rem, 3vw, 1.2rem);
+        line-height: 1.55;
+      }
+
+      .collection-title {
+        margin: 0 0 1rem;
+        color: #e37fd3;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        font-weight: normal;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .link-section + .link-section {
+        margin-top: 3rem;
+      }
+
+      .card-stack {
+        padding-bottom: 2rem;
+      }
+
+      .link-section:last-of-type .card-stack {
+        padding-bottom: 45vh;
+      }
+
+      .site-card {
+        position: sticky;
+        top: 1rem;
+        width: 100%;
+        min-height: 150px;
+        margin-bottom: 1rem;
+        padding: 1.5rem 2rem;
+        border: 1px solid #021b20;
+        background: #fffcf5;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        color: #4a3f35;
+        transition:
+          box-shadow 180ms ease,
+          transform 180ms ease;
+      }
+
+      .site-card:hover,
+      .site-card:focus-within {
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.24);
+        transform: translateY(-4px);
+      }
+
+      .site-card:nth-of-type(1) {
+        rotate: -0.5deg;
+        background: #fffcf5;
+      }
+
+      .site-card:nth-of-type(2) {
+        rotate: 0.8deg;
+        background: #fef9f0;
+      }
+
+      .site-card:nth-of-type(3) {
+        rotate: -1deg;
+        background: #fcf5e8;
+      }
+
+      .site-card:nth-of-type(4) {
+        rotate: 1.2deg;
+        background: #fef7ec;
+      }
+
+      .site-card:nth-of-type(5) {
+        rotate: -0.7deg;
+        background: #fbf3e4;
+      }
+
+      .site-card:nth-of-type(6) {
+        rotate: 0.5deg;
+        background: #fef5e7;
+      }
+
+      .site-card h3 {
+        margin: 0 0 0.5rem;
+        color: #ff0000;
+        font-size: 1.8rem;
+        font-weight: normal;
+        letter-spacing: 0.5px;
+      }
+
+      .site-heading {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .site-heading h3 {
+        margin-bottom: 0;
+      }
+
+      .site-icon {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 auto;
+        border: 1px solid #e6d7bf;
+        border-radius: 9px;
+        background: #fffaf0;
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 255, 255, 0.75),
+          0 1px 2px rgba(74, 63, 53, 0.14);
+        object-fit: contain;
+        padding: 5px;
+      }
+
+      .site-link {
+        display: inline-block;
+        border-bottom: 1px solid rgba(139, 111, 80, 0.35);
+        color: #5c4d40;
+        font-size: 1.24rem;
+        line-height: 1.35;
+        transition:
+          border-color 160ms ease,
+          color 160ms ease,
+          transform 160ms ease;
+      }
+
+      .site-link:hover {
+        border-color: #8b6f50;
+        color: #322920;
+        transform: translateX(3px);
+      }
+
+      .home-link:focus-visible,
+      .site-link:focus-visible {
+        border-radius: 2px;
+        outline: 3px solid #e37fd3;
+        outline-offset: 5px;
+      }
+
+      footer {
+        padding: 0.35rem 0 0.5rem;
+      }
+
+      .footer-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      footer a {
+        text-decoration: none;
+      }
+
+      footer .brand-label img {
+        height: 48px;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+      }
+
+      footer .github-footer-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 0.25rem 0.5rem;
+        border: 1px solid rgba(195, 204, 175, 0.45);
+        border-radius: 6px;
+        background: rgba(255, 252, 245, 0.08);
+      }
+
+      footer .github-footer-link:visited {
+        color: #fffcf5;
+      }
+
+      footer .github-footer-link:hover {
+        border-color: #fffcf5;
+        color: #ffffff;
+      }
+
+      footer .github-footer-link img {
+        display: block;
+        width: 86px;
+        height: auto;
+      }
+
+      footer .cc-link {
+        color: inherit;
+      }
+
+      footer .cc-icon {
+        max-width: 1em;
+        max-height: 1em;
+        margin-left: 0.2em;
+        vertical-align: middle;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      @media (max-width: 520px) {
+        main {
+          width: min(100% - 2rem, 450px);
+          padding-top: 1.25rem;
+        }
+
+        .home-link {
+          margin-bottom: 2.75rem;
+        }
+
+        .page-header {
+          margin-bottom: 2.5rem;
+        }
+
+        .site-card {
+          min-height: 136px;
+          padding: 1.3rem 1.4rem;
+        }
+
+        .site-card h3 {
+          font-size: 1.55rem;
+        }
+
+        .site-icon {
+          width: 32px;
+          height: 32px;
+        }
+
+        .site-link {
+          font-size: 1.08rem;
+          overflow-wrap: anywhere;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <a class="home-link" href="../index.html">← Home</a>
+
+      <header class="page-header">
+        <h1>Link Library</h1>
+        <p class="intro">
+          A growing collection of websites, projects, and curious corners of
+          the web that I find worth sharing.
+        </p>
+      </header>
+
+      <section class="link-section" aria-labelledby="news-title">
+        <h2 class="collection-title" id="news-title">News &amp; reading</h2>
+
+        <div class="card-stack">
+          <!--
+            New card template:
+            <article class="site-card">
+              <div class="site-heading">
+                <img class="site-icon" src="../images/links/example.png" alt="" />
+                <h3>Website name</h3>
+              </div>
+              <a class="site-link" href="https://example.com/">example.com →</a>
+            </article>
+
+            Add another section when a new group appears, for example:
+            Projects, Tools, Personal sites, or Strange web.
+          -->
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/techcrunch.jpg"
+                alt=""
+              />
+              <h3>TechCrunch</h3>
+            </div>
+            <a class="site-link" href="https://techcrunch.com/">
+              techcrunch.com →
+            </a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/hacker-news.svg"
+                alt=""
+              />
+              <h3>Hacker News</h3>
+            </div>
+            <a class="site-link" href="https://news.ycombinator.com/">
+              news.ycombinator.com →
+            </a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/lobsters.png"
+                alt=""
+              />
+              <h3>Lobsters</h3>
+            </div>
+            <a class="site-link" href="https://lobste.rs/">lobste.rs →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/wired.png"
+                alt=""
+              />
+              <h3>Wired</h3>
+            </div>
+            <a class="site-link" href="https://www.wired.com/">wired.com →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/dev.png"
+                alt=""
+              />
+              <h3>DEV Community</h3>
+            </div>
+            <a class="site-link" href="https://dev.to/">dev.to →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/fortune.png"
+                alt=""
+              />
+              <h3>Fortune</h3>
+            </div>
+            <a class="site-link" href="https://fortune.com/">fortune.com →</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="link-section" aria-labelledby="tools-title">
+        <h2 class="collection-title" id="tools-title">Tools</h2>
+
+        <div class="card-stack">
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/extra-email.png"
+                alt=""
+              />
+              <h3>Extra Email</h3>
+            </div>
+            <a class="site-link" href="https://extra.email/">extra.email →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/granola.png"
+                alt=""
+              />
+              <h3>Granola</h3>
+            </div>
+            <a class="site-link" href="https://www.granola.ai">granola.ai →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/nebius.svg"
+                alt=""
+              />
+              <h3>Nebius</h3>
+            </div>
+            <a class="site-link" href="https://nebius.com/">nebius.com →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/obsidian.jpg"
+                alt=""
+              />
+              <h3>Obsidian</h3>
+            </div>
+            <a class="site-link" href="https://obsidian.md/">obsidian.md →</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="link-section" aria-labelledby="ai-agents-title">
+        <h2 class="collection-title" id="ai-agents-title">AI &amp; agents</h2>
+
+        <div class="card-stack">
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/codex.png"
+                alt=""
+              />
+              <h3>Codex</h3>
+            </div>
+            <a class="site-link" href="https://openai.com/codex/">
+              openai.com/codex →
+            </a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/claude.png"
+                alt=""
+              />
+              <h3>Claude</h3>
+            </div>
+            <a class="site-link" href="https://claude.ai/">claude.ai →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/superwhisper.png"
+                alt=""
+              />
+              <h3>Superwhisper</h3>
+            </div>
+            <a class="site-link" href="https://superwhisper.com/">
+              superwhisper.com →
+            </a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/hermes-agent.png"
+                alt=""
+              />
+              <h3>Hermes Agent</h3>
+            </div>
+            <a class="site-link" href="https://hermes-agent.nousresearch.com/">
+              hermes-agent.nousresearch.com →
+            </a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/openclaw.png"
+                alt=""
+              />
+              <h3>OpenClaw</h3>
+            </div>
+            <a class="site-link" href="https://openclaw.ai/">openclaw.ai →</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="link-section" aria-labelledby="dev-tools-title">
+        <h2 class="collection-title" id="dev-tools-title">Dev tools</h2>
+
+        <div class="card-stack">
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/github.png"
+                alt=""
+              />
+              <h3>GitHub</h3>
+            </div>
+            <a class="site-link" href="https://github.com/">github.com →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/codeberg.png"
+                alt=""
+              />
+              <h3>Codeberg</h3>
+            </div>
+            <a class="site-link" href="https://codeberg.org/">codeberg.org →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/vercel.png"
+                alt=""
+              />
+              <h3>Vercel</h3>
+            </div>
+            <a class="site-link" href="https://vercel.com/">vercel.com →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/railway.png"
+                alt=""
+              />
+              <h3>Railway</h3>
+            </div>
+            <a class="site-link" href="https://railway.com/">railway.com →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/ghostty.png"
+                alt=""
+              />
+              <h3>Ghostty</h3>
+            </div>
+            <a class="site-link" href="https://ghostty.org/">ghostty.org →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/homebrew.png"
+                alt=""
+              />
+              <h3>Homebrew</h3>
+            </div>
+            <a class="site-link" href="https://brew.sh/">brew.sh →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/vite.jpg"
+                alt=""
+              />
+              <h3>Vite</h3>
+            </div>
+            <a class="site-link" href="https://vite.dev/">vite.dev →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/vim.svg"
+                alt=""
+              />
+              <h3>Vim</h3>
+            </div>
+            <a class="site-link" href="https://www.vim.org/">vim.org →</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="link-section" aria-labelledby="play-title">
+        <h2 class="collection-title" id="play-title">Play</h2>
+
+        <div class="card-stack">
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/lepuzz.png"
+                alt=""
+              />
+              <h3>Le Puzz</h3>
+            </div>
+            <a class="site-link" href="https://lepuzz.com/">lepuzz.com →</a>
+          </article>
+
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/trainjazz.png"
+                alt=""
+              />
+              <h3>Train Jazz</h3>
+            </div>
+            <a class="site-link" href="https://trainjazz.com/">trainjazz.com →</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="link-section" aria-labelledby="learning-title">
+        <h2 class="collection-title" id="learning-title">Learning</h2>
+
+        <div class="card-stack">
+          <article class="site-card">
+            <div class="site-heading">
+              <img
+                class="site-icon"
+                src="../images/links/mit-ocw.png"
+                alt=""
+              />
+              <h3>MIT OpenCourseWare</h3>
+            </div>
+            <a class="site-link" href="https://ocw.mit.edu/">ocw.mit.edu →</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-row">
+        <a href="../index.html" class="brand-label">
+          <img src="../images/indie-coder.png" alt="Whoami brand" />
+        </a>
+
+        <a
+          class="github-footer-link"
+          href="https://github.com/zhurakov/blog"
+          rel="me"
+        >
+          <img src="../images/github-lockup-white.svg" alt="GitHub" />
+        </a>
+
+        <p class="copyright">
+          <a
+            class="cc-link"
+            rel="license"
+            href="https://creativecommons.org/licenses/by-sa/4.0/"
+          >
+            CC BY-SA 4.0
+          </a>
+          <img
+            class="cc-icon"
+            src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
+            alt="CC"
+          />
+          <img
+            class="cc-icon"
+            src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
+            alt="BY"
+          />
+          <img
+            class="cc-icon"
+            src="https://mirrors.creativecommons.org/presskit/icons/sa.svg"
+            alt="SA"
+          />
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
