@@ -51,6 +51,7 @@
         font-family: "Courier New", monospace;
         font-size: 40px;
         line-height: 1;
+        margin: 0;
         color: #b85212;
       }
 
@@ -129,8 +130,12 @@
       }
 
       @media (max-width: 600px) {
+        header {
+          top: calc(0.75rem + env(safe-area-inset-top));
+        }
+
         header h1 {
-          font-size: 28px;
+          font-size: clamp(1.65rem, 8vw, 2rem);
         }
 
         .play-button {
@@ -148,7 +153,17 @@
 
         main {
           justify-content: flex-start;
-          padding-top: 10vh; /* играйся 35–45vh */
+          padding: calc(7.25rem + env(safe-area-inset-top)) 1rem 5rem;
+        }
+      }
+
+      @media (max-width: 600px) and (max-height: 500px) {
+        header h1 {
+          font-size: 1.35rem;
+        }
+
+        main {
+          padding-top: calc(5rem + env(safe-area-inset-top));
         }
       }
     </style>
