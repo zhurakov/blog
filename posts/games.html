@@ -4,291 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Games</title>
+    <meta
+      name="description"
+      content="A small games page with a retro arcade mood."
+    />
+    <meta name="theme-color" content="#000000" />
+    <link
+      rel="canonical"
+      href="https://zhurakov.github.io/blog/posts/games.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hello World" />
+    <meta property="og:title" content="Games" />
+    <meta
+      property="og:description"
+      content="A small games page with a retro arcade mood."
+    />
+    <meta
+      property="og:url"
+      content="https://zhurakov.github.io/blog/posts/games.html"
+    />
+    <meta
+      property="og:image"
+      content="https://zhurakov.github.io/blog/images/whoami.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Games" />
+    <meta
+      name="twitter:description"
+      content="A small games page with a retro arcade mood."
+    />
+    <meta
+      name="twitter:image"
+      content="https://zhurakov.github.io/blog/images/whoami.png"
+    />
+    <link rel="icon" href="../images/indie-coder.png" />
     <link rel="stylesheet" href="../css/button.css" />
-    <link rel="shortcut icon" href="../images/indie-coder.png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Tiny5  -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      a {
-        text-decoration: none;
-        color: #0f7afc;
-      }
-
-      a:visited {
-        color: #3270ec;
-      }
-
-      a:hover {
-        color: #cf0000;
-      }
-
-      a:active {
-        color: #00aa00;
-      }
-
-      .home-link {
-        position: fixed;
-        top: 2rem;
-        left: 2rem;
-        z-index: 30;
-        color: #c3ccaf;
-        font-family: "Courier New", monospace;
-        font-size: 0.85rem;
-        letter-spacing: 0.08em;
-        text-decoration: none;
-        text-transform: uppercase;
-      }
-
-      .home-link:visited {
-        color: #c3ccaf;
-      }
-
-      .home-link:hover {
-        color: #ffffff;
-        text-decoration: none;
-      }
-
-      .home-link:focus-visible {
-        border-radius: 2px;
-        outline: 3px solid #e37fd3;
-        outline-offset: 5px;
-      }
-
-      header h1 {
-        font-family: "Press Start 2P", monospace;
-        font-size: 68px;
-        line-height: 1;
-        color: #b85212;
-        margin-top: 40px;
-        margin-bottom: 10px;
-      }
-
-      footer a.cc-link {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      footer img.cc-icon {
-        max-width: 1em;
-        max-height: 1em;
-        margin-left: 0.2em;
-        vertical-align: middle;
-      }
-
-      footer {
-        padding: 1px 0;
-      }
-      .footer-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-      }
-      footer .brand-label img {
-        height: 48px;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
-      }
-
-      footer .github-footer-link {
-        display: inline-flex;
-        align-items: center;
-        min-height: 30px;
-        padding: 0.25rem 0.5rem;
-        border: 1px solid rgba(195, 204, 175, 0.45);
-        border-radius: 6px;
-        background: rgba(255, 252, 245, 0.08);
-        text-decoration: none;
-      }
-
-      footer .github-footer-link:visited {
-        color: #fffcf5;
-      }
-
-      footer .github-footer-link:hover {
-        border-color: #fffcf5;
-        color: #ffffff;
-        text-decoration: none;
-      }
-
-      footer .github-footer-link img {
-        display: block;
-        width: 86px;
-        height: auto;
-      }
-      footer p {
-        margin: 0;
-      }
-
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        display: flex;
-        flex-direction: column;
-        background-color: #000;
-        overflow: hidden;
-        font-family: "Tiny5", sans-serif;
-        text-align: center;
-      }
-
-      .background-effect {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      .background-effect::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 10;
-        opacity: 0.2;
-        background: repeating-linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0.4) 0px,
-          rgba(255, 255, 255, 0.4) 1px,
-          rgba(0, 0, 0, 0) 5px,
-          rgba(0, 0, 0, 0) 10px
-        );
-      }
-
-      .background-effect::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 1;
-        opacity: 0.1;
-        mix-blend-mode: screen;
-        background: linear-gradient(45deg, #ff7a18 0%, #7900c5 100%);
-      }
-
-      .scan-bar {
-        position: fixed;
-        left: 0;
-        top: -100px;
-        width: 100%;
-        height: 100px;
-        background: rgba(0, 0, 0, 0.65);
-        pointer-events: none;
-        z-index: 12;
-        animation:
-          scan-bar 10s linear infinite,
-          scan-flicker 0.12s steps(2) infinite;
-      }
-
-      /* GAME OVER */
-      .background-effect ul {
-        background-color: black;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-        position: relative;
-        z-index: 1;
-        margin: 0;
-        padding: 0;
-      }
-
-      .background-effect li {
-        list-style: none;
-        color: rgb(0, 255, 102);
-        font-size: 7rem;
-        text-shadow: 0px 0px 15px rgb(0, 255, 102);
-        animation: slide 4s linear infinite;
-        margin: -20px;
-      }
-
-      @keyframes scan-bar {
-        0% {
-          transform: translateY(-100px);
-          opacity: 0;
-        }
-        15% {
-          transform: translateY(-100px);
-          opacity: 0.7;
-        }
-        35% {
-          transform: translateY(calc(100vh + 100px));
-          opacity: 0.7;
-        }
-        36% {
-          transform: translateY(calc(100vh + 100px));
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(calc(100vh + 100px));
-          opacity: 0;
-        }
-      }
-
-      @keyframes scan-flicker {
-        0% {
-          opacity: 0.5;
-        }
-        25% {
-          opacity: 0.75;
-        }
-        50% {
-          opacity: 0.35;
-        }
-        75% {
-          opacity: 0.85;
-        }
-        100% {
-          opacity: 0.6;
-        }
-      }
-
-      @keyframes slide {
-        0% {
-          transform: translateX(-75%);
-        }
-        50% {
-          transform: translateX(75%);
-        }
-        100% {
-          transform: translateX(-75%);
-        }
-      }
-
-      .content {
-        position: relative;
-        z-index: 20;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        width: 100%;
-        pointer-events: auto;
-        color: #389984;
-      }
-
-      main {
-        flex: 1;
-      }
-
-      footer {
-        position: relative;
-        z-index: 20;
-      }
-    </style>
+    <link rel="stylesheet" href="../css/games.css" />
   </head>
 
   <body>
@@ -297,17 +49,17 @@
     <div class="background-effect">
       <div class="scan-bar" aria-hidden="true"></div>
       <ul>
-        <li>Уходите</li>
-        <li>Уходите</li>
-        <li>Уходите</li>
-        <li>GAME OVER</li>
-        <li>GAME OVER</li>
-        <li>GAME OVER</li>
-        <li>GAME OVER</li>
-        <li>GAME OVER</li>
-        <li>Уходите</li>
-        <li>Уходите</li>
-        <li>Уходите</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
+        <li>PLAY GAME</li>
       </ul>
     </div>
 

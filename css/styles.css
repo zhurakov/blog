@@ -13,6 +13,7 @@
 html,
 body {
   height: 100%;
+  overflow-x: hidden;
 }
 
 /* === Общий layout === */
@@ -20,6 +21,7 @@ body {
   text-align: center;
   background-color: #021b20;
   color: #e37fd3;
+  font-family: "Press Start 2P", monospace;
   margin: 0;
   overflow-x: hidden;
   display: flex;
@@ -193,9 +195,8 @@ main {
   left: 2rem;
   z-index: 30;
   color: #c3ccaf;
-  font-family: "Courier New", monospace;
   font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-decoration: none;
   text-transform: uppercase;
 }
@@ -236,13 +237,14 @@ a:active {
 
 /* === Навигация === */
 nav {
-  font-family: "Press Start 2P", monospace;
   font-size: 30px;
+  line-height: 1.8;
+  padding: 0 1rem;
+  overflow-wrap: anywhere;
 }
 
 /* === Заголовок === */
 header h1 {
-  font-family: "Courier New", monospace;
   line-height: 1;
   margin-top: 40px;
   margin-bottom: 10px;
@@ -250,33 +252,14 @@ header h1 {
 
 /* === Неоновый текст (класс neon-text) === */
 .neon-text {
-  font-size: 68px;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
   color: #fff;
   text-shadow:
+    0 0 5px #ff005e,
     0 0 10px #ff005e,
     0 0 20px #ff005e,
     0 0 40px #ff005e,
     0 0 80px #ff005e;
-  animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow:
-      0 0 5px #ff005e,
-      0 0 10px #ff005e,
-      0 0 20px #ff005e,
-      0 0 40px #ff005e,
-      0 0 80px #ff005e;
-  }
-  to {
-    text-shadow:
-      0 0 10px #ff80b3,
-      0 0 20px #ff80b3,
-      0 0 40px #ff80b3,
-      0 0 80px #ff80b3,
-      0 0 160px #ff80b3;
-  }
 }
 
 /* === Rubik-линк (3D куб) === */
@@ -305,10 +288,9 @@ header h1 {
   justify-content: center;
   color: #000;
   background: rgba(255, 255, 255, 0.9);
-  font-family: sans-serif;
   text-transform: uppercase;
-  font-size: 22px;
-  letter-spacing: 2px;
+  font-size: 12px;
+  letter-spacing: 0;
   transition: 0.5s;
   border: 2px solid #000;
   box-sizing: border-box;
@@ -402,4 +384,33 @@ footer .github-footer-link img {
 
 footer p {
   margin: 0;
+}
+
+@media (max-width: 640px) {
+  header h1 {
+    font-size: clamp(1.75rem, 11vw, 2.8rem);
+  }
+
+  .neon-text {
+    text-shadow:
+      0 0 6px #ff005e,
+      0 0 12px #ff005e,
+      0 0 24px #ff005e,
+      0 0 42px #ff005e;
+  }
+
+  nav {
+    font-size: clamp(0.82rem, 4.9vw, 1.25rem);
+  }
+
+  .home-link {
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.62rem;
+  }
+
+  .copyright {
+    font-size: 0.58rem;
+    line-height: 1.7;
+  }
 }

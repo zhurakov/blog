@@ -4,169 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Music</title>
-    <link rel="stylesheet" href="../css/styles.css?v=home-link" />
-    <link rel="shortcut icon" href="../images/indie-coder.png" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        height: 100%;
-        font-family: monospace;
-        color: white;
-      }
-
-      body {
-        position: relative;
-        background-color: #000;
-        overflow: hidden;
-      }
-
-      #backgroundVideo {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center center;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      header {
-        position: fixed;
-        top: 10px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        z-index: 2;
-        pointer-events: none;
-      }
-
-      header h1 {
-        font-family: "Courier New", monospace;
-        font-size: 40px;
-        line-height: 1;
-        margin: 0;
-        color: #b85212;
-      }
-
-      main {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        z-index: 1;
-        position: relative;
-      }
-
-      .play-button {
-        display: inline-block;
-        padding: 10px 24px;
-        background-color: #389984;
-        color: #000;
-        text-decoration: none;
-        border-radius: 4px;
-        cursor: pointer;
-        border: none;
-        font-size: 16px;
-      }
-
-      .play-button.playing {
-        background-color: #b85212;
-        color: #fff;
-      }
-
-      .status-message {
-        margin-top: 12px;
-        min-height: 1.2em;
-        font-size: 14px;
-        color: #fff;
-      }
-
-      footer {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        padding: 4px 0;
-        z-index: 9;
-        background: rgba(0, 0, 0, 0.5);
-      }
-
-      .footer-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-      }
-
-      footer .brand-label img {
-        height: 32px;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
-      }
-
-      footer a.cc-link {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      footer img.cc-icon {
-        max-width: 1em;
-        max-height: 1em;
-        margin-left: 0.2em;
-        vertical-align: middle;
-      }
-
-      footer p {
-        margin: 0;
-      }
-
-      @media (max-width: 600px) {
-        header {
-          top: calc(0.75rem + env(safe-area-inset-top));
-        }
-
-        header h1 {
-          font-size: clamp(1.65rem, 8vw, 2rem);
-        }
-
-        .play-button {
-          padding: 8px 18px;
-          font-size: 14px;
-        }
-
-        footer .brand-label img {
-          height: 24px;
-        }
-
-        #backgroundVideo {
-          object-position: 20% center; /* подстрой 10/30% по вкусу */
-        }
-
-        main {
-          justify-content: flex-start;
-          padding: calc(7.25rem + env(safe-area-inset-top)) 1rem 5rem;
-        }
-      }
-
-      @media (max-width: 600px) and (max-height: 500px) {
-        header h1 {
-          font-size: 1.35rem;
-        }
-
-        main {
-          padding-top: calc(5rem + env(safe-area-inset-top));
-        }
-      }
-    </style>
+    <meta
+      name="description"
+      content="A small radio room with a typing animation and playable music stream."
+    />
+    <meta name="theme-color" content="#000000" />
+    <link
+      rel="canonical"
+      href="https://zhurakov.github.io/blog/posts/music.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hello World" />
+    <meta property="og:title" content="Music" />
+    <meta
+      property="og:description"
+      content="A small radio room with a typing animation and playable music stream."
+    />
+    <meta
+      property="og:url"
+      content="https://zhurakov.github.io/blog/posts/music.html"
+    />
+    <meta
+      property="og:image"
+      content="https://zhurakov.github.io/blog/images/whoami.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Music" />
+    <meta
+      name="twitter:description"
+      content="A small radio room with a typing animation and playable music stream."
+    />
+    <meta
+      name="twitter:image"
+      content="https://zhurakov.github.io/blog/images/whoami.png"
+    />
+    <link rel="icon" href="../images/indie-coder.png" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/music.css" />
   </head>
 
   <body>
@@ -234,6 +108,7 @@
     </footer>
 
     <script>
+      const backgroundVideo = document.getElementById("backgroundVideo");
       const audio = document.getElementById("radio");
       const playToggle = document.getElementById("playToggle");
       const statusMessage = document.getElementById("statusMessage");
@@ -245,6 +120,8 @@
 
       let isPlaying = false;
       let sourceIndex = 0;
+
+      backgroundVideo.play().catch(() => {});
 
       function updateButton(playing) {
         isPlaying = playing;
