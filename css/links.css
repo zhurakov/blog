@@ -108,32 +108,32 @@ h1 {
   transform: translateY(-4px);
 }
 
-.site-card:nth-of-type(1) {
+.site-card:nth-of-type(6n + 1) {
   rotate: -0.5deg;
   background: #fffcf5;
 }
 
-.site-card:nth-of-type(2) {
+.site-card:nth-of-type(6n + 2) {
   rotate: 0.8deg;
   background: #fef9f0;
 }
 
-.site-card:nth-of-type(3) {
+.site-card:nth-of-type(6n + 3) {
   rotate: -1deg;
   background: #fcf5e8;
 }
 
-.site-card:nth-of-type(4) {
+.site-card:nth-of-type(6n + 4) {
   rotate: 1.2deg;
   background: #fef7ec;
 }
 
-.site-card:nth-of-type(5) {
+.site-card:nth-of-type(6n + 5) {
   rotate: -0.7deg;
   background: #fbf3e4;
 }
 
-.site-card:nth-of-type(6) {
+.site-card:nth-of-type(6n) {
   rotate: 0.5deg;
   background: #fef5e7;
 }
