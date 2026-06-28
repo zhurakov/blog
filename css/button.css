@@ -37,6 +37,12 @@
   border-radius: 5px;
 }
 
+.button a:visited,
+.button a:hover,
+.button a:active {
+  color: white;
+}
+
 .button a:active {
   top: 10px;
   background-color: #f78900;
