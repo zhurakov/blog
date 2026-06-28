@@ -6,7 +6,7 @@
 <title>PIXEL JUMP</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #000; overflow: hidden; }
+  body { background: #000; overflow: hidden; touch-action: none; }
   canvas { display: block; }
 
   #hud {
@@ -53,19 +53,9 @@
   #msg-screen { background: rgba(0,0,0,0.68); }
   #msg-screen h1 { font-size: 50px; }
 
-  .tbtn {
-    position: fixed;
-    background: rgba(255,255,255,0.10);
-    border: 2px solid rgba(255,255,255,0.20);
-    border-radius: 10px;
-    color: rgba(255,255,255,0.7);
-    font-family: 'Courier New', monospace;
-    font-size: 20px;
-    display: flex; align-items: center; justify-content: center;
-    user-select: none; -webkit-user-select: none;
-    touch-action: none;
+  @media (pointer: coarse), (max-width: 700px) {
+    #hint-el { display: none; }
   }
-  .tbtn:active { background: rgba(255,255,255,0.22); }
 </style>
 </head>
 <body>
@@ -523,33 +513,75 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('keyup', e => { keys[e.code] = false; });
 
-const touch = { left:false, right:false, fwd:false, back:false };
-function makeTBtn(label, right, bottom, width, height, prop) {
-  const el = document.createElement('div');
-  el.className='tbtn';
-  el.style.cssText=`right:${right}px;bottom:${bottom}px;width:${width}px;height:${height}px;`;
-  el.textContent=label;
-  document.body.appendChild(el);
-  const on=()=>{ touch[prop]=true; };
-  const off=()=>{ touch[prop]=false; };
-  el.addEventListener('touchstart',e=>{e.preventDefault();on();},{passive:false});
-  el.addEventListener('touchend',  e=>{e.preventDefault();off();},{passive:false});
-  el.addEventListener('mousedown',on); el.addEventListener('mouseup',off);
+const touch = { axisX:0, axisY:0, active:false };
+const touchInput = {
+  id:null,
+  startX:0,
+  startY:0,
+  moved:false,
+};
+const TOUCH_DEADZONE = 10;
+const TOUCH_RADIUS = 64;
+
+function resetTouchMove() {
+  touch.axisX=0;
+  touch.axisY=0;
+  touch.active=false;
+  touchInput.id=null;
+  touchInput.moved=false;
 }
-function makeTJump(label, right, bottom, width, height) {
-  const el=document.createElement('div');
-  el.className='tbtn';
-  el.style.cssText=`right:${right}px;bottom:${bottom}px;width:${width}px;height:${height}px;font-size:14px;`;
-  el.textContent=label;
-  document.body.appendChild(el);
-  el.addEventListener('touchstart',e=>{e.preventDefault();jumpBuffer=0.18;},{passive:false});
+
+function updateTouchMove(t) {
+  const dx=t.clientX-touchInput.startX;
+  const dy=t.clientY-touchInput.startY;
+  const dist=Math.hypot(dx,dy);
+  if (dist<TOUCH_DEADZONE&&!touchInput.moved) return;
+  touchInput.moved=true;
+  touch.active=true;
+  const mag=Math.min(1,dist/TOUCH_RADIUS);
+  const ang=Math.atan2(dy,dx);
+  touch.axisX=Math.cos(ang)*mag;
+  touch.axisY=-Math.sin(ang)*mag;
+}
+
+function handleTouchStart(e) {
+  if (state!=='playing') return;
+  e.preventDefault();
+  for (const t of e.changedTouches) {
+    if (touchInput.id===null) {
+      touchInput.id=t.identifier;
+      touchInput.startX=t.clientX;
+      touchInput.startY=t.clientY;
+      touchInput.moved=false;
+    } else {
+      jumpBuffer=0.18;
+    }
+  }
+}
+
+function handleTouchMove(e) {
+  if (state!=='playing'||touchInput.id===null) return;
+  e.preventDefault();
+  for (const t of e.changedTouches) {
+    if (t.identifier===touchInput.id) updateTouchMove(t);
+  }
+}
+
+function handleTouchEnd(e) {
+  if (touchInput.id===null) return;
+  e.preventDefault();
+  for (const t of e.changedTouches) {
+    if (t.identifier!==touchInput.id) continue;
+    if (!touchInput.moved&&state==='playing') jumpBuffer=0.18;
+    resetTouchMove();
+  }
 }
 
 if ('ontouchstart' in window) {
-  document.getElementById('hint-el').remove();
-  makeTBtn('◀',200,110,64,64,'left'); makeTBtn('▶',80,110,64,64,'right');
-  makeTBtn('▲',140,180,64,64,'fwd');  makeTBtn('▼',140,110,64,64,'back');
-  makeTJump('JUMP',16,110,100,64);
+  document.addEventListener('touchstart', handleTouchStart, { passive:false });
+  document.addEventListener('touchmove', handleTouchMove, { passive:false });
+  document.addEventListener('touchend', handleTouchEnd, { passive:false });
+  document.addEventListener('touchcancel', handleTouchEnd, { passive:false });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -836,15 +868,19 @@ function update(dt) {
   const fwdV  = new THREE.Vector3(-Math.sin(camYaw),0,-Math.cos(camYaw));
   const rgtV  = new THREE.Vector3( Math.cos(camYaw),0,-Math.sin(camYaw));
   const dir   = new THREE.Vector3();
-  if (keys['KeyW']||keys['ArrowUp']   ||touch.fwd)   dir.add(fwdV);
-  if (keys['KeyS']||keys['ArrowDown'] ||touch.back)  dir.sub(fwdV);
-  if (keys['KeyA']                    ||touch.left)   dir.sub(rgtV);
-  if (keys['KeyD']                    ||touch.right)  dir.add(rgtV);
-  if (dir.lengthSq()>0) dir.normalize();
+  if (keys['KeyW']||keys['ArrowUp'])   dir.add(fwdV);
+  if (keys['KeyS']||keys['ArrowDown']) dir.sub(fwdV);
+  if (keys['KeyA'])                    dir.sub(rgtV);
+  if (keys['KeyD'])                    dir.add(rgtV);
+  if (touch.active) {
+    dir.add(fwdV.clone().multiplyScalar(touch.axisY));
+    dir.add(rgtV.clone().multiplyScalar(touch.axisX));
+  }
+  if (dir.lengthSq()>1) dir.normalize();
   const moving=dir.lengthSq()>0.01;
 
   // ── Timer ──
-  if (!timerRunning&&(moving||keys['Space'])) timerRunning=true;
+  if (!timerRunning&&(moving||keys['Space']||jumpBuffer>0)) timerRunning=true;
   if (timerRunning) { levelTimer+=dt; elTimer.textContent=fmtTime(levelTimer); }
 
   // ── Moving platforms ──
@@ -864,7 +900,7 @@ function update(dt) {
 
   // ── Coyote + jump buffer ──
   if (onGround) coyoteTime=0.13; else coyoteTime-=dt;
-  if (keys['Space']||touch.jump) jumpBuffer=0.18;
+  if (keys['Space']) jumpBuffer=0.18;
   else jumpBuffer-=dt;
 
   if (jumpBuffer>0&&coyoteTime>0) {
