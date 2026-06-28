@@ -319,7 +319,7 @@ header h1 {
 }
 
 /* Позиционирование Rubik на главной */
-article sub a.rubik {
+article sub .rubik {
   display: inline-block;
   margin-top: 150px;
 }
