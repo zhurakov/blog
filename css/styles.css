@@ -264,16 +264,25 @@ header h1 {
 
 /* === Rubik-линк (3D куб) === */
 .rubik {
+  appearance: none;
+  border: 0;
+  padding: 0;
   position: relative;
   width: 150px;
   height: 50px;
   display: inline-block;
+  font: inherit;
+  background: transparent;
+  cursor: pointer;
   transform-style: preserve-3d;
   transition: transform 4s;
   transform: perspective(1000px) rotateX(0deg);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.rubik:hover {
+.rubik:hover,
+.rubik:focus,
+.rubik:active {
   transform: perspective(1000px) rotateX(360deg);
 }
 
@@ -297,7 +306,9 @@ header h1 {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 
-.rubik:hover span {
+.rubik:hover span,
+.rubik:focus span,
+.rubik:active span {
   color: #fff;
   background: rgba(3, 169, 244, 0.8);
 }
