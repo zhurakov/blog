@@ -5,15 +5,17 @@
 }
 
 .button a {
+  box-sizing: border-box;
   color: white;
   font-family: "Press Start 2P", monospace;
   font-weight: bold;
-  font-size: 36px;
+  font-size: clamp(1rem, 7vw, 36px);
   text-align: center;
   text-decoration: none;
   background-color: #ffa12b;
   display: block;
   position: relative;
+  max-width: calc(100vw - 48px);
   padding: 20px 40px;
 
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
