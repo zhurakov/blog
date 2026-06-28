@@ -520,8 +520,16 @@ const touchInput = {
   startY:0,
   moved:false,
 };
+const touchCamera = {
+  id:null,
+  startX:0,
+  lastX:0,
+  moved:false,
+  axis:0,
+};
 const TOUCH_DEADZONE = 10;
 const TOUCH_RADIUS = 64;
+const TOUCH_CAMERA_RADIUS = 96;
 
 function resetTouchMove() {
   touch.axisX=0;
@@ -529,6 +537,14 @@ function resetTouchMove() {
   touch.active=false;
   touchInput.id=null;
   touchInput.moved=false;
+}
+
+function resetTouchCamera() {
+  touchCamera.id=null;
+  touchCamera.startX=0;
+  touchCamera.lastX=0;
+  touchCamera.moved=false;
+  touchCamera.axis=0;
 }
 
 function updateTouchMove(t) {
@@ -544,6 +560,14 @@ function updateTouchMove(t) {
   touch.axisY=-Math.sin(ang)*mag;
 }
 
+function updateTouchCamera(t) {
+  const dx=t.clientX-touchCamera.startX;
+  if (Math.abs(dx)<TOUCH_DEADZONE&&!touchCamera.moved) return;
+  touchCamera.moved=true;
+  touchCamera.lastX=t.clientX;
+  touchCamera.axis=Math.max(-1,Math.min(1,dx/TOUCH_CAMERA_RADIUS));
+}
+
 function handleTouchStart(e) {
   if (state!=='playing') return;
   e.preventDefault();
@@ -553,6 +577,12 @@ function handleTouchStart(e) {
       touchInput.startX=t.clientX;
       touchInput.startY=t.clientY;
       touchInput.moved=false;
+    } else if (touchCamera.id===null) {
+      touchCamera.id=t.identifier;
+      touchCamera.startX=t.clientX;
+      touchCamera.lastX=t.clientX;
+      touchCamera.moved=false;
+      touchCamera.axis=0;
     } else {
       jumpBuffer=0.18;
     }
@@ -560,20 +590,26 @@ function handleTouchStart(e) {
 }
 
 function handleTouchMove(e) {
-  if (state!=='playing'||touchInput.id===null) return;
+  if (state!=='playing') return;
   e.preventDefault();
   for (const t of e.changedTouches) {
     if (t.identifier===touchInput.id) updateTouchMove(t);
+    if (t.identifier===touchCamera.id) updateTouchCamera(t);
   }
 }
 
 function handleTouchEnd(e) {
-  if (touchInput.id===null) return;
+  if (touchInput.id===null&&touchCamera.id===null) return;
   e.preventDefault();
   for (const t of e.changedTouches) {
-    if (t.identifier!==touchInput.id) continue;
-    if (!touchInput.moved&&state==='playing') jumpBuffer=0.18;
-    resetTouchMove();
+    if (t.identifier===touchInput.id) {
+      if (!touchInput.moved&&state==='playing') jumpBuffer=0.18;
+      resetTouchMove();
+    }
+    if (t.identifier===touchCamera.id) {
+      if (!touchCamera.moved&&state==='playing') jumpBuffer=0.18;
+      resetTouchCamera();
+    }
   }
 }
 
@@ -789,6 +825,7 @@ function updateShadowBlob() {
 function updateCamera(dt) {
   if (keys['KeyQ']) camYaw+=1.8*dt;
   if (keys['KeyE']) camYaw-=1.8*dt;
+  if (touchCamera.axis) camYaw-=touchCamera.axis*2.2*dt;
 
   const lookAhead=new THREE.Vector3(vel.x,0,vel.z);
   if (lookAhead.length()>0.1) lookAhead.normalize().multiplyScalar(2);
