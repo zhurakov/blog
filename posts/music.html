@@ -147,10 +147,11 @@
         </p>
         <a
           class="claude-credit"
+          id="claudeWatchLink"
           href="https://www.youtube.com/@claude"
           target="_blank"
           rel="noopener"
-          >youtube.com/@claude ↗</a
+          >open on youtube ↗</a
         >
       </main>
     </section>
@@ -215,13 +216,27 @@
       const CLAUDE_FM_CHANNEL_ID = "UCV03SRZXJEz-hchIAogeJOg";
       const CLAUDE_FM_VIDEO_ID = "tRsQsTMvPNg";
 
-      function claudeFmEmbedUrl() {
-        const params =
-          "autoplay=1&mute=1&enablejsapi=1&playsinline=1&rel=0&modestbranding=1";
+      function claudeFmWatchUrl() {
         if (CLAUDE_FM_MODE === "video") {
-          return `https://www.youtube.com/embed/${CLAUDE_FM_VIDEO_ID}?${params}`;
+          return `https://www.youtube.com/watch?v=${CLAUDE_FM_VIDEO_ID}`;
         }
-        return `https://www.youtube.com/embed/live_stream?channel=${CLAUDE_FM_CHANNEL_ID}&${params}`;
+        return "https://www.youtube.com/@claude/live";
+      }
+
+      function claudeFmEmbedUrl() {
+        const params = new URLSearchParams({
+          autoplay: "1",
+          mute: "1",
+          enablejsapi: "1",
+          playsinline: "1",
+          rel: "0",
+          modestbranding: "1",
+          origin: window.location.origin,
+        });
+        if (CLAUDE_FM_MODE === "video") {
+          return `https://www.youtube-nocookie.com/embed/${CLAUDE_FM_VIDEO_ID}?${params}`;
+        }
+        return `https://www.youtube-nocookie.com/embed/live_stream?channel=${CLAUDE_FM_CHANNEL_ID}&${params}`;
       }
 
       /* ---------------------------- screens ---------------------------- */
@@ -240,6 +255,7 @@
       const claudeStage = document.getElementById("claudeStage");
       const claudeSound = document.getElementById("claudeSound");
       const claudeStatus = document.getElementById("claudeStatus");
+      const claudeWatchLink = document.getElementById("claudeWatchLink");
       let claudeFrame = null;
       let claudeMuted = true;
 
@@ -287,9 +303,15 @@
             "autoplay; encrypted-media; picture-in-picture";
           claudeFrame.setAttribute("allowfullscreen", "");
           claudeFrame.setAttribute("frameborder", "0");
+          claudeFrame.setAttribute(
+            "referrerpolicy",
+            "strict-origin-when-cross-origin"
+          );
+          claudeFrame.title = "Claude FM live stream";
           claudeFrame.src = claudeFmEmbedUrl();
           claudeStage.appendChild(claudeFrame);
         }
+        claudeWatchLink.href = claudeFmWatchUrl();
         claudeMuted = true;
         updateSoundButton();
       }
