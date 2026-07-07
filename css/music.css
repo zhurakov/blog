@@ -17,43 +17,302 @@ body {
   overflow: hidden;
 }
 
-#backgroundVideo {
+/* ============================ screens ============================ */
+.screen {
   position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.04);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.screen.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* ============================= lobby ============================= */
+.lobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4.5rem 1rem 5.5rem;
+  background-color: #000;
+}
+
+.lobby-header {
+  margin-bottom: 2.25rem;
+}
+
+.lobby-header h1 {
+  font-size: clamp(1.15rem, 4.5vw, 1.9rem);
+  line-height: 1;
+  color: #b85212;
+}
+
+.lobby-sub {
+  margin-top: 0.9rem;
+  font-size: 0.55rem;
+  line-height: 1.7;
+  color: #6f6f6f;
+}
+
+.rooms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 640px;
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 150px;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.window[data-room]:hover,
+.window[data-room]:focus-visible {
+  transform: translateY(-6px);
+  outline: none;
+}
+
+.window.is-opening {
+  transform: scale(1.12);
+  opacity: 0;
+  transition: transform 0.26s ease, opacity 0.26s ease;
+}
+
+.window-frame {
+  position: relative;
+  height: 150px;
+  border: 4px solid #389984;
+  border-radius: 6px 6px 0 0;
+  background: #10241f;
+  overflow: hidden;
+}
+
+.window-preview {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
-  z-index: 0;
   pointer-events: none;
 }
 
-header {
+.window-frame--claude {
+  border-color: #b85212;
+  background: #241408;
+}
+
+.claude-preview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.claude-mark {
+  font-size: 3rem;
+  line-height: 1;
+  color: #d97a2f;
+}
+
+.claude-live {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.42rem;
+  color: #8a5a2f;
+  letter-spacing: 0.5px;
+}
+
+.live-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e24b4a;
+  vertical-align: middle;
+  animation: livePulse 1.4s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.window-frame--soon {
+  border: 4px dashed #444;
+  background: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.soon-plus {
+  font-size: 2rem;
+  color: #444;
+}
+
+.window-plate {
+  font-size: 0.6rem;
+  padding: 9px 4px;
+  border-radius: 0 0 6px 6px;
+  line-height: 1.4;
+}
+
+.window-plate--radio {
+  background: #389984;
+  color: #04342c;
+}
+
+.window-plate--claude {
+  background: #b85212;
+  color: #2a1405;
+}
+
+.window-plate--soon {
+  background: #2a2a2a;
+  color: #777;
+}
+
+.window-caption {
+  margin-top: 0.6rem;
+  font-size: 0.42rem;
+  line-height: 1.7;
+  color: #5f5f5f;
+}
+
+.window--soon {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ============================= rooms ============================= */
+.room {
+  background-color: #000;
+}
+
+.room-bg,
+.claude-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.room-bg {
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+}
+
+.claude-stage {
+  background: #000;
+}
+
+.claude-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* cover the viewport with 16:9 video, cropping overflow */
+  width: 100vw;
+  height: 56.25vw;
+  min-width: 177.78vh;
+  min-height: 100vh;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+}
+
+.room-header {
   position: fixed;
   top: 10px;
   left: 0;
   right: 0;
   text-align: center;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
-header h1 {
+.room-header h1 {
   font-size: clamp(1.35rem, 5vw, 2.2rem);
   line-height: 1;
-  margin: 0;
   color: #b85212;
 }
 
-main {
+.room-main {
+  position: relative;
+  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  z-index: 1;
-  position: relative;
+}
+
+/* Claude FM: keep controls in a bar at the bottom so the live video
+   stays visible instead of being covered by a centered button. */
+.room-main--claude {
+  justify-content: flex-end;
+  padding-bottom: 54px;
+}
+
+.room-main--claude .status-message,
+.room-main--claude .claude-credit {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.room-main--claude .claude-credit {
+  margin-top: 10px;
+}
+
+/* =========================== controls =========================== */
+.home-link,
+.back-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  font-family: inherit;
+  font-size: 0.6rem;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.45);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-link:hover,
+.home-link:hover {
+  color: #389984;
 }
 
 .play-button {
@@ -83,6 +342,18 @@ main {
   color: #fff;
 }
 
+.claude-credit {
+  margin-top: 14px;
+  font-size: 0.5rem;
+  color: #8a8a8a;
+  text-decoration: none;
+}
+
+.claude-credit:hover {
+  color: #b85212;
+}
+
+/* ============================ footer ============================ */
 footer {
   position: fixed;
   left: 0;
@@ -122,12 +393,13 @@ footer p {
   margin: 0;
 }
 
+/* =========================== responsive ========================= */
 @media (max-width: 600px) {
-  header {
+  .room-header {
     top: calc(0.75rem + env(safe-area-inset-top));
   }
 
-  header h1 {
+  .room-header h1 {
     font-size: clamp(1.05rem, 6vw, 1.45rem);
   }
 
@@ -140,22 +412,39 @@ footer p {
     height: 24px;
   }
 
-  #backgroundVideo {
-    object-position: 20% center; /* подстрой 10/30% по вкусу */
+  .room-bg {
+    object-position: 20% center;
   }
 
-  main {
+  .room-main {
     justify-content: flex-start;
     padding: calc(7.25rem + env(safe-area-inset-top)) 1rem 5rem;
+  }
+
+  .lobby {
+    justify-content: flex-start;
+    padding: calc(4.5rem + env(safe-area-inset-top)) 1rem 5.5rem;
+  }
+
+  .rooms {
+    gap: 1.25rem;
+  }
+
+  .window {
+    width: 132px;
+  }
+
+  .window-frame {
+    height: 132px;
   }
 }
 
 @media (max-width: 600px) and (max-height: 500px) {
-  header h1 {
+  .room-header h1 {
     font-size: 0.95rem;
   }
 
-  main {
+  .room-main {
     padding-top: calc(5rem + env(safe-area-inset-top));
   }
 }
