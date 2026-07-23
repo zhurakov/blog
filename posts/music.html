@@ -15,7 +15,7 @@
     <title>Music</title>
     <meta
       name="description"
-      content="Pick a room and play music: a lofi radio room with a typing animation, or Claude FM — Anthropic's 24/7 live stream."
+      content="A persistent lofi radio room with a typing animation and site-wide mini player."
     />
     <meta name="theme-color" content="#000000" />
     <link
@@ -27,7 +27,7 @@
     <meta property="og:title" content="Music" />
     <meta
       property="og:description"
-      content="Pick a room and play music: a lofi radio room with a typing animation, or Claude FM — Anthropic's 24/7 live stream."
+      content="A persistent lofi radio room with a typing animation and site-wide mini player."
     />
     <meta
       property="og:url"
@@ -41,7 +41,7 @@
     <meta name="twitter:title" content="Music" />
     <meta
       name="twitter:description"
-      content="Pick a room and play music: a lofi radio room with a typing animation, or Claude FM — Anthropic's 24/7 live stream."
+      content="A persistent lofi radio room with a typing animation and site-wide mini player."
     />
     <meta
       name="twitter:image"
@@ -53,110 +53,54 @@
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/music.css" />
+    <script src="../js/site-player.js" defer></script>
   </head>
 
-  <body data-screen="lobby">
-    <!-- ===== LOBBY ===== -->
-    <section class="screen lobby is-active" id="screenLobby">
-      <a class="home-link" href="../index.html">← Home</a>
+  <body data-site-page="music">
+    <a class="home-link" href="../index.html">Home</a>
 
-      <header class="lobby-header">
-        <h1>Choose a room</h1>
-        <p class="lobby-sub">pick a window — each one plays different music</p>
-      </header>
+    <video
+      id="musicRoomVideo"
+      class="music-room__video"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="metadata"
+    >
+      <source
+        src="https://coderadio.freecodecamp.org/static/media/Saron3.cb9bbffcf0eaef69b98b.webm"
+        type="video/webm"
+      />
+    </video>
 
-      <div class="rooms">
-        <button class="window" data-room="radio" aria-label="Enter the radio room">
-          <span class="window-frame">
-            <video
-              class="window-preview"
-              autoplay
-              loop
-              muted
-              playsinline
-              preload="metadata"
-            >
-              <source
-                src="https://coderadio.freecodecamp.org/static/media/Saron3.cb9bbffcf0eaef69b98b.webm"
-                type="video/webm"
-              />
-            </video>
-          </span>
-          <span class="window-plate window-plate--radio">Radio room</span>
-          <span class="window-caption">lofi radio + typing</span>
+    <main class="music-room" aria-labelledby="music-room-title">
+      <div class="music-room__panel">
+        <p class="music-room__eyebrow">always-on lofi room</p>
+        <h1 id="music-room-title">Radio room</h1>
+        <div class="music-room__meter" aria-hidden="true">
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
+        <button class="play-button" id="musicRoomToggle" type="button">
+          Play radio
         </button>
-
-        <button class="window" data-room="claude" aria-label="Enter the Claude FM room">
-          <span class="window-frame window-frame--claude">
-            <span class="claude-preview">
-              <span class="claude-mark">✷</span>
-              <span class="claude-live"><i class="live-dot"></i> LIVE 24/7</span>
-            </span>
-          </span>
-          <span class="window-plate window-plate--claude">Claude FM</span>
-          <span class="window-caption">anthropic's live stream</span>
-        </button>
-
-        <span class="window window--soon" aria-hidden="true">
-          <span class="window-frame window-frame--soon">
-            <span class="soon-plus">+</span>
-          </span>
-          <span class="window-plate window-plate--soon">Soon</span>
-          <span class="window-caption">room for more streams</span>
-        </span>
-      </div>
-    </section>
-
-    <!-- ===== RADIO ROOM ===== -->
-    <section class="screen room room--radio" id="screenRadio">
-      <video id="radioVideo" class="room-bg" loop muted playsinline preload="none">
-        <source
-          src="https://coderadio.freecodecamp.org/static/media/Saron3.cb9bbffcf0eaef69b98b.webm"
-          type="video/webm"
-        />
-      </video>
-
-      <audio id="radio" src="https://stream.zeno.fm/0r0xa792kwzuv"></audio>
-
-      <button class="back-link" data-back>← Lobby</button>
-
-      <header class="room-header">
-        <h1>Radio room</h1>
-      </header>
-
-      <main class="room-main">
-        <button class="play-button" id="playToggle">▶ Play radio</button>
-        <p class="status-message" id="statusMessage" aria-live="polite"></p>
-      </main>
-    </section>
-
-    <!-- ===== CLAUDE FM ROOM ===== -->
-    <section class="screen room room--claude" id="screenClaude">
-      <div class="claude-stage" id="claudeStage"></div>
-
-      <button class="back-link" data-back>← Lobby</button>
-
-      <header class="room-header">
-        <h1>Claude FM</h1>
-      </header>
-
-      <main class="room-main room-main--claude">
-        <button class="play-button" id="claudeSound">🔊 Enable sound</button>
-        <p class="status-message" id="claudeStatus" aria-live="polite">
-          Anthropic's 24/7 live stream.
+        <p class="status-message" id="musicRoomStatus" aria-live="polite">
+          lofi room is ready.
         </p>
-        <a
-          class="claude-credit"
-          id="claudeWatchLink"
-          href="https://www.youtube.com/@claude"
-          target="_blank"
-          rel="noopener"
-          >open on youtube ↗</a
-        >
-      </main>
-    </section>
+      </div>
+    </main>
 
-    <!-- ===== SHARED FOOTER ===== -->
     <footer>
       <div class="footer-row">
         <a href="../index.html" class="brand-label">
@@ -197,235 +141,5 @@
         </p>
       </div>
     </footer>
-
-    <script>
-      /* ------------------------------------------------------------------ *
-       * Claude FM source.
-       * We embed by VIDEO ID. The channel live endpoint
-       * (embed/live_stream?channel=...) is deprecated by YouTube and now
-       * returns "Error 153", so we point straight at the live video.
-       *
-       * NOTE: 24/7 live streams rotate their video id when they restart,
-       * so this id may need updating occasionally. To refresh it: open
-       * https://www.youtube.com/@claude , go to the live stream, copy the
-       * id from the url (youtube.com/watch?v=THIS_PART) and paste below.
-       *
-       *   Channel: @claude -> UCV03SRZXJEz-hchIAogeJOg
-       * ------------------------------------------------------------------ */
-      const CLAUDE_FM_MODE = "video"; // "video" | "channel"
-      const CLAUDE_FM_CHANNEL_ID = "UCV03SRZXJEz-hchIAogeJOg";
-      const CLAUDE_FM_VIDEO_ID = "tRsQsTMvPNg";
-
-      function claudeFmWatchUrl() {
-        if (CLAUDE_FM_MODE === "video") {
-          return `https://www.youtube.com/watch?v=${CLAUDE_FM_VIDEO_ID}`;
-        }
-        return "https://www.youtube.com/@claude/live";
-      }
-
-      function claudeFmEmbedUrl() {
-        const params = new URLSearchParams({
-          autoplay: "1",
-          mute: "1",
-          enablejsapi: "1",
-          playsinline: "1",
-          rel: "0",
-          modestbranding: "1",
-          origin: window.location.origin,
-        });
-        if (CLAUDE_FM_MODE === "video") {
-          return `https://www.youtube-nocookie.com/embed/${CLAUDE_FM_VIDEO_ID}?${params}`;
-        }
-        return `https://www.youtube-nocookie.com/embed/live_stream?channel=${CLAUDE_FM_CHANNEL_ID}&${params}`;
-      }
-
-      /* ---------------------------- screens ---------------------------- */
-      const body = document.body;
-      const screens = {
-        lobby: document.getElementById("screenLobby"),
-        radio: document.getElementById("screenRadio"),
-        claude: document.getElementById("screenClaude"),
-      };
-
-      const radioVideo = document.getElementById("radioVideo");
-      const audio = document.getElementById("radio");
-      const playToggle = document.getElementById("playToggle");
-      const statusMessage = document.getElementById("statusMessage");
-
-      const claudeStage = document.getElementById("claudeStage");
-      const claudeSound = document.getElementById("claudeSound");
-      const claudeStatus = document.getElementById("claudeStatus");
-      const claudeWatchLink = document.getElementById("claudeWatchLink");
-      let claudeFrame = null;
-      let claudeMuted = true;
-
-      function showScreen(name) {
-        Object.entries(screens).forEach(([key, el]) => {
-          el.classList.toggle("is-active", key === name);
-        });
-        body.dataset.screen = name;
-
-        if (name === "radio") {
-          radioVideo.play().catch(() => {});
-        } else {
-          radioVideo.pause();
-        }
-
-        if (name === "claude") {
-          enterClaude();
-        } else {
-          leaveClaude();
-        }
-      }
-
-      /* ----------------------- lobby -> room --------------------------- */
-      document.querySelectorAll(".window[data-room]").forEach((win) => {
-        win.addEventListener("click", () => {
-          const room = win.dataset.room;
-          win.classList.add("is-opening");
-          window.setTimeout(() => {
-            win.classList.remove("is-opening");
-            showScreen(room);
-          }, 260);
-        });
-      });
-
-      document.querySelectorAll("[data-back]").forEach((btn) => {
-        btn.addEventListener("click", () => showScreen("lobby"));
-      });
-
-      /* --------------------------- Claude FM --------------------------- */
-      function enterClaude() {
-        if (!claudeFrame) {
-          claudeFrame = document.createElement("iframe");
-          claudeFrame.className = "claude-frame";
-          claudeFrame.allow =
-            "autoplay; encrypted-media; picture-in-picture";
-          claudeFrame.setAttribute("allowfullscreen", "");
-          claudeFrame.setAttribute("frameborder", "0");
-          claudeFrame.setAttribute(
-            "referrerpolicy",
-            "strict-origin-when-cross-origin"
-          );
-          claudeFrame.title = "Claude FM live stream";
-          claudeFrame.src = claudeFmEmbedUrl();
-          claudeStage.appendChild(claudeFrame);
-        }
-        claudeWatchLink.href = claudeFmWatchUrl();
-        claudeMuted = true;
-        updateSoundButton();
-      }
-
-      function leaveClaude() {
-        if (claudeFrame) {
-          claudeFrame.remove();
-          claudeFrame = null;
-        }
-      }
-
-      function ytCommand(func) {
-        if (!claudeFrame || !claudeFrame.contentWindow) return;
-        claudeFrame.contentWindow.postMessage(
-          JSON.stringify({ event: "command", func, args: [] }),
-          "*"
-        );
-      }
-
-      function updateSoundButton() {
-        claudeSound.textContent = claudeMuted
-          ? "🔊 Enable sound"
-          : "🔇 Mute";
-        claudeSound.classList.toggle("playing", !claudeMuted);
-      }
-
-      claudeSound.addEventListener("click", () => {
-        if (claudeMuted) {
-          ytCommand("unMute");
-          ytCommand("playVideo");
-          claudeMuted = false;
-          claudeStatus.textContent = "Live now. Enjoy the stream.";
-        } else {
-          ytCommand("mute");
-          claudeMuted = true;
-          claudeStatus.textContent = "Anthropic's 24/7 live stream.";
-        }
-        updateSoundButton();
-      });
-
-      /* ------------------------- radio player -------------------------- */
-      const playlist = [
-        "https://stream.zeno.fm/0r0xa792kwzuv",
-        "../audio/turnontheradio.mp3",
-        "../audio/bluesunday.mp3",
-      ];
-
-      let isPlaying = false;
-      let sourceIndex = 0;
-
-      function updateButton(playing) {
-        isPlaying = playing;
-        playToggle.classList.toggle("playing", playing);
-        playToggle.textContent = playing ? "⏸ Pause radio" : "▶ Play radio";
-      }
-
-      function setStatus(message) {
-        statusMessage.textContent = message;
-      }
-
-      async function playCurrentSource() {
-        if (
-          audio.src !== new URL(playlist[sourceIndex], window.location.href).href
-        ) {
-          audio.src = playlist[sourceIndex];
-          audio.load();
-        }
-        await audio.play();
-      }
-
-      playToggle.addEventListener("click", async () => {
-        try {
-          if (!isPlaying) {
-            await playCurrentSource();
-            updateButton(true);
-            setStatus(
-              sourceIndex === 0
-                ? ""
-                : "Remote stream unavailable, using local audio."
-            );
-          } else {
-            audio.pause();
-            updateButton(false);
-            setStatus("");
-          }
-        } catch (e) {
-          if (sourceIndex < playlist.length - 1) {
-            sourceIndex += 1;
-            setStatus("Stream unavailable, trying backup audio...");
-            try {
-              await playCurrentSource();
-              updateButton(true);
-              setStatus("Remote stream unavailable, using local audio.");
-              return;
-            } catch (fallbackError) {
-              console.error(fallbackError);
-            }
-          }
-          updateButton(false);
-          setStatus("Audio is unavailable right now.");
-          console.error(e);
-        }
-      });
-
-      audio.addEventListener("ended", () => updateButton(false));
-
-      audio.addEventListener("error", () => {
-        updateButton(false);
-        if (sourceIndex < playlist.length - 1) {
-          setStatus("Playback failed. Press play to try backup audio.");
-        } else {
-          setStatus("Audio is unavailable right now.");
-        }
-      });
-    </script>
   </body>
 </html>
